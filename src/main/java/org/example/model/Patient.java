@@ -1,31 +1,19 @@
 package org.example.model;
 
 import jakarta.persistence.*;
+
+import java.util.List;
 //import org.springframework.data.annotation.Id;
 
 @Entity
+@Table(name = "patients")
 public class Patient {
     @Id
     @GeneratedValue
     private Long id;
     private String name;
-    @OneToOne(mappedBy = "patient")
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Doctor doctor;
-
-    public Patient() {
-    }
-    public Patient(String name) {
-        this.name = name;
-
-    }
-    @Override
-    public String toString() {
-        return "Patient{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", doctor=" + doctor +
-                '}';
-    }
     public Doctor getDoctor() {
         return doctor;
     }
@@ -33,6 +21,23 @@ public class Patient {
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                //", doctor=" + doctor +
+                '}';
+    }
+
+    public Patient() {
+    }
+    public Patient(String name) {
+        this.name = name;
+
+    }
+
 
 
     public Long getId() {

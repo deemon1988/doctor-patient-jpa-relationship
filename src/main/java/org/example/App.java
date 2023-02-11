@@ -9,11 +9,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Arrays;
-
-/**
- * Hello world!
- *
- */
 public class App 
 {
     public static void main( String[] args )
@@ -23,20 +18,33 @@ public class App
         DoctorRepository repoDoctor = context.getBean(DoctorRepository.class);
         PatientRepository repoPatient = context.getBean(PatientRepository.class);
 
+        Doctor sanders = new Doctor ("Dr. Sanders", "General");
+        repoDoctor.save(sanders);
+
         Patient one =new Patient("Первый");
         Patient two =new Patient("Второй");
-        Doctor sanders = new Doctor ("Dr. Sanders", "General");
 
-        sanders.setPatient(one);
+        //sanders.setPatients(Arrays.asList(one,two));
+        sanders.addPatient(one);
+        sanders.addPatient(two);
 
-        repoDoctor.save(sanders);
-//        sanders.setPatient(Arrays.asList(one,two));
-//        repoDoctor.save(sanders);
+//        one.setDoctor(sanders);
+       repoPatient.save(one);
+//
+//        two.setDoctor(sanders);
+       repoPatient.save(two);
+
+
+
+
+
+        System.out.println("Пациенты:");
+        repoPatient.findAll().forEach(System.out::println);
 
         System.out.println("Доктора:");
         repoDoctor.findAll().forEach(System.out::println);
-        System.out.println("Пациенты:");
-        repoPatient.findAll().forEach(System.out::println);
+
+
 
     }
 }

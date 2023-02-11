@@ -2,6 +2,7 @@ package org.example.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 @Entity
 public class Doctor {
@@ -10,12 +11,31 @@ public class Doctor {
     private Long id;
     private String name;
     private String speciality;
-  /*  @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Patient> patient;*/
-    public Doctor() {
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER)
+   private List<Patient> patients = new ArrayList<>();
+   public List<Patient> getPatients() {
+       return patients;
+   }
+    public void addPatient(Patient patient) {
+        patients.add(patient);
+        patient.setDoctor(this);
+    }
+    public void setPatients(List<Patient> patienList) {
+        this.patients = patienList;
     }
 
-@OneToOne(cascade = CascadeType.ALL)
+    public Doctor() {
+    }
+    @Override
+    public String toString() {
+        return "Doctor{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", speciality='" + speciality + '\'' +
+                ", patients=" + patients +
+                '}';
+    }
+/*@OneToOne(cascade = CascadeType.ALL)
     private Patient patient;
     public Patient getPatient() {
         return patient;
@@ -23,7 +43,7 @@ public class Doctor {
 
     public void setPatient(Patient patient) {
         this.patient = patient;
-    }
+    }*/
 
     public Doctor(String name, String speciality) {
         this.name = name;
@@ -56,23 +76,8 @@ public class Doctor {
         this.speciality = speciality;
     }
 
-  /*  public List<Patient> getPatient() {
-        return patient;
-    }
-
-    public void setPatient(List<Patient> patienList) {
-        this.patient = patienList;
-    }
-*/
 
 
-    @Override
-    public String toString() {
-        return "Doctor{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", speciality='" + speciality + '\'' +
-               // ", patient=" + patient +
-                '}';
-    }
+
+
 }
